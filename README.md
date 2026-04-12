@@ -1,4 +1,4 @@
-# 🖥️ Laptop Lineup Optimizer
+# 🖥️ Optimizer Lineup of Product using Machine Learning
 
 > **AI Analyst untuk optimalisasi lineup produk laptop** — menghitung gross profit dari opsi upgrade spesifikasi menggunakan analisis pasar berbasis data nyata atau simulasi.
 
