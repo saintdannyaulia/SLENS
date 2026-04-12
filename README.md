@@ -4,7 +4,6 @@
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://python.org)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3%2B-orange?logo=scikit-learn)](https://scikit-learn.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
@@ -341,11 +340,6 @@ git commit -m "feat: tambah dukungan gradient boosting regressor"
 git push origin feature/nama-fitur
 ```
 
----
-
-## Lisensi
-
-Didistribusikan di bawah Lisensi MIT. Lihat file [LICENSE](LICENSE) untuk detail.
 
 ---
 
