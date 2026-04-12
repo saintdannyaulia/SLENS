@@ -1,0 +1,5 @@
+rank,upgrade,add_cost,market_price_yen,total_cost,gross_profit,match_count,method,profitable
+1,CPU Kelas 2,12000,147270,123000,24270,132,median (132 exact matches),True
+2,RAM 32GB,8500,137656,119500,18156,106,median (106 exact matches),True
+3,Storage 1TB,6000,125145,117000,8145,113,median (113 exact matches),True
+4,"Layar 15.6""",5500,118533,116500,2033,115,median (115 exact matches),True
