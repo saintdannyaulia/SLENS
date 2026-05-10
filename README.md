@@ -1,6 +1,6 @@
-# 🖥️ Optimizer Lineup of Product using Machine Learning
+# 🖥️ StarLive Lineup Evaluation & Network Simulation
 
-> **AI Analyst untuk optimalisasi lineup produk laptop** — menghitung gross profit dari opsi upgrade spesifikasi menggunakan analisis pasar berbasis data nyata atau simulasi.
+> **AI Analyst untuk optimalisasi lineup produk laptop** — menghitung gross profit dari opsi upgrade spesifikasi menggunakan analisis pasar berbasis data nyata atau simulasi. *Merupakan pertanyaan pada tes METI Government of Japan (Japan Internship Program) tahun 2025
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://python.org)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3%2B-orange?logo=scikit-learn)](https://scikit-learn.org)
