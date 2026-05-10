@@ -1,6 +1,7 @@
 # 🖥️ StarLive Lineup Evaluation & Network Simulation
 
 > **AI Analyst untuk optimalisasi lineup produk laptop** — menghitung gross profit dari opsi upgrade spesifikasi menggunakan analisis pasar berbasis data nyata atau simulasi.
+>
 > *Merupakan pertanyaan pada tes METI Government of Japan for AI and Tech Internship tahun 2025*
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://python.org)
