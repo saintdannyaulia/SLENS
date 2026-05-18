@@ -327,21 +327,7 @@ Berikut hasil pada dataset simulasi 1.200 baris:
 
 ---
 
-## Kontribusi
-
-Pull request dan issue terbuka untuk umum. Untuk perubahan yang bersifat signifikan, harap buka issue terlebih dahulu guna mendiskusikan perubahan yang direncanakan.
-
-```bash
-# Fork → clone → buat branch
-git checkout -b feature/nama-fitur
-
-# Commit dengan pesan deskriptif
-git commit -m "feat: tambah dukungan gradient boosting regressor"
-
-# Push dan buat PR
-git push origin feature/nama-fitur
-```
-
 ---
 
-<p align="center">Dibuat dengan Python · pandas · scikit-learn · matplotlib</p>
+<p align="center">Dikembangkan oleh tim penyusun **StarLive Zero** 
+         Danny Aulia · Said Hasan Hanafiah · Noah Von Nobelius · Arvian Raveindra Pradana</p>
