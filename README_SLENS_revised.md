@@ -327,5 +327,9 @@ Berikut hasil pada dataset simulasi 1.200 baris:
 
 ---
 
-<h align="center">**Pengembangan dari tim StarLive SAINT**</h>
+<p align="center">
+  <b>Pengembangan dari tim StarLive SAINT</b>
+</p>
+
 <p align="center">Danny Aulia · Said Hasan Hanafiah · Noah Von Nobelius · Arvian Raveindra Pradana</p>
+
