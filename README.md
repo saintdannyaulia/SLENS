@@ -1,132 +1,130 @@
 # 🖥️ StarLive Lineup Evaluation & Network Simulation
 
-> **AI Analyst untuk optimalisasi lineup produk laptop** — menghitung gross profit dari opsi upgrade spesifikasi menggunakan analisis pasar berbasis data nyata atau simulasi.
->
-> *Merupakan pertanyaan pada tes METI Government of Japan for AI and Tech Internship tahun 2025*
-
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://python.org)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3%2B-orange?logo=scikit-learn)](https://scikit-learn.org)
-
----
-
-## Daftar Isi
-
-- [Latar Belakang](#latar-belakang)
-- [Cara Kerja](#cara-kerja)
-- [Struktur Proyek](#struktur-proyek)
-- [Instalasi](#instalasi)
-- [Penggunaan](#penggunaan)
-- [Format Dataset CSV](#format-dataset-csv)
-- [Konfigurasi Model Dasar & Upgrade](#konfigurasi-model-dasar--upgrade)
-- [Output yang Dihasilkan](#output-yang-dihasilkan)
-- [Metodologi Analitik](#metodologi-analitik)
-- [Hasil Rekomendasi (Simulasi)](#hasil-rekomendasi-simulasi)
-- [Kontribusi](#kontribusi)
-- [Lisensi](#lisensi)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://python.org)
+[![Pandas](https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=white)](https://pandas.pydata.org)
+[![NumPy](https://img.shields.io/badge/NumPy-4DABCF?logo=numpy&logoColor=white)](https://numpy.org)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=white)](https://scikit-learn.org)
+[![Matplotlib](https://img.shields.io/badge/Matplotlib-71D291?logo=matplotlib&logoColor=white)](https://matplotlib.org)
+[![License](https://img.shields.io/badge/License-MIT-22c55e?logo=opensourceinitiative&logoColor=white)](LICENSE)
 
 ---
 
-## Latar Belakang
+## Directory
 
-Manajer produk dan tim merchandising laptop sering dihadapkan pada pertanyaan:
+- [Overview](#overview)
+- [Features & Tech Stack](#features--tech-stack)
+- [System Workflow](#system-workflow)
+- [User Guide](#user-guide)
+  - [Equipment](#equipment)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Troubleshooting](#troubleshooting)
+- [Development Notes](#development-notes)
+  - [Limitations](#limitations)
+  - [Future Development](#future-development)
+- [Author](#author)
+
+---
+
+## Overview
+
+Proyek ini dikembangkan sebagai solusi untuk tes seleksi **METI Government of Japan AI and Tech Internship 2025**. Tool ini dirancang untuk membantu manajer produk dan tim merchandising laptop dalam menjawab pertanyaan bisnis secara kuantitatif:
 
 > *"Apakah penambahan RAM, peningkatan CPU, atau perluasan storage pada model entry menguntungkan — dan mana yang paling optimal?"*
 
-Tool ini menjawab pertanyaan tersebut secara kuantitatif dengan:
+Sistem bekerja dengan menelusuri dataset harga pasar laptop, memperkirakan harga jual setelah setiap opsi upgrade, lalu meranking dan merekomendasikan **2 upgrade paling menguntungkan** berdasarkan gross profit per unit.
 
-1. Menelusuri dataset harga pasar laptop serupa.
-2. Memperkirakan **harga jual pasar** setelah setiap upgrade.
-3. Menghitung **gross profit** = estimasi harga pasar − (harga jual baseline + biaya upgrade).
-4. Meranking opsi dan merekomendasikan **2 upgrade paling menguntungkan**.
+> **📝 Notes**
+> <!-- Tambahkan catatan tambahan, konteks proyek, atau informasi relevan lainnya di sini -->
+> <!-- Contoh: versi rilis, kondisi khusus penggunaan, atau hal yang perlu diketahui sebelum lanjut -->
 
 ---
 
-## Cara Kerja
+## Features & Tech Stack
 
-```
-Dataset CSV (atau simulasi)
-         │
-         ▼
-┌─────────────────────────┐
-│  Exact Match Filter     │  ← cocokkan semua 4 kolom spek
-│  (toleransi layar ±0.05")│
-└────────────┬────────────┘
-             │
-     ┌───────┴────────┐
-     │ Match ≥ 5 baris│──► Median market price
-     │ Match 1–4 baris│──► Mean market price
-     │ Match = 0 baris│──► Regresi Linear (fallback)
-     └───────┬────────┘
-             │
-             ▼
-  Gross Profit = market_price − (base_selling + add_cost)
-             │
-             ▼
-     Ranking & Rekomendasi Top 2
-```
+### Features
 
-Pipeline dikontrol dari `main.py` dan dieksekusi dalam dua modul:
+- **Dual mode** — jalankan dengan dataset CSV nyata atau simulasi 1.200 baris otomatis
+- **Estimasi harga hierarkis** — Median → Mean → Regresi Linear sebagai fallback
+- **Gross profit per unit** — dihitung otomatis untuk setiap opsi upgrade
+- **Output lengkap** — `results.csv`, scatter plot, bar chart profit, dan heatmap korelasi
+- **Dapat digunakan sebagai library** — semua modul dapat diimpor langsung di Python
 
-| Modul | Tanggung Jawab |
+### Tech Stack
+
+| Komponen | Teknologi |
 |---|---|
-| `src/analyzer.py` | Memuat data, exact match, regresi, menghitung profit, dan mencetak laporan |
-| `src/visualizer.py` | Scatter plot, bar chart gross profit, dan heatmap korelasi |
+| Bahasa | Python 3.10+ |
+| Manipulasi Data | Pandas 2.0, NumPy 1.24 |
+| Machine Learning | scikit-learn 1.3 (LinearRegression + StandardScaler) |
+| Visualisasi | Matplotlib 3.7 |
+| Runtime | Local / CLI |
 
 ---
 
-## Struktur Proyek
+## System Workflow
+
+### Flowchart
 
 ```
-laptop-lineup-optimizer/
-│
-├── main.py                  # Titik masuk utama
-├── requirements.txt         # Dependensi Python
-├── README.md
-│
-├── src/
-│   ├── __init__.py
-│   ├── analyzer.py          # Pipeline analisis & regresi
-│   └── visualizer.py        # Visualisasi matplotlib
-│
-├── data/
-│   └── laptops.csv          # Dataset (opsional — tersedia simulasi bawaan)
-│
-├── outputs/                 # Hasil analisis (dibuat otomatis)
-│   ├── results.csv
-│   ├── scatter_price_vs_spec.png
-│   ├── profit_bar.png
-│   └── correlation_heatmap.png
-│
-└── notebooks/               # Eksplorasi interaktif (opsional)
-    └── exploration.ipynb
+┌──────────────────────┐     ┌─────────────────────────┐     ┌──────────────────────┐
+│  Dataset CSV         │     │  Exact Match Filter     │     │  ≥ 5 baris cocok     │
+│  (atau simulasi      │────▶│  toleransi layar        │────▶│  → Median price      │
+│   1.200 baris)       │     │  ±0.05"                 │     │                      │
+└──────────────────────┘     └─────────────────────────┘     └──────────┬───────────┘
+                                                                         │
+                                                                         ▼
+┌──────────────────────┐     ┌─────────────────────────┐     ┌──────────────────────┐
+│  Ranking &           │     │  Gross Profit =         │     │  1–4 baris cocok     │
+│  Rekomendasi Top 2   │◀────│  market − (base +       │◀────│  → Mean price        │
+│                      │     │  add_cost)              │     │  0 baris → Regresi   │
+└──────────────────────┘     └─────────────────────────┘     └──────────────────────┘
 ```
+
+### Explanation
+
+| Langkah | Proses | Keterangan |
+|---|---|---|
+| 1 | Muat dataset | CSV dari path argumen, atau data simulasi jika tidak ada input |
+| 2 | Exact Match Filter | Cocokkan 4 kolom spek dengan toleransi layar ±0.05" |
+| 3 | Estimasi harga | Hierarki: Median (≥5 baris) → Mean (1–4) → Regresi Linear (0) |
+| 4 | Hitung gross profit | `market_price − (base_selling_price + upgrade_add_cost)` |
+| 5 | Ranking & output | Urutkan profit, cetak laporan, simpan CSV dan visualisasi |
 
 ---
 
-## Instalasi
+## User Guide
 
-### Prasyarat
+### Equipment
+
+Pastikan hal berikut tersedia sebelum memulai:
 
 - Python **3.10** atau lebih baru
 - `pip`
+- Dataset CSV laptop *(opsional — tersedia mode simulasi bawaan)*
 
-### Langkah
+### Installation
+
+#### 1. Clone Repositori
 
 ```bash
-# 1. Clone repositori
 git clone https://github.com/username/laptop-lineup-optimizer.git
 cd laptop-lineup-optimizer
+```
 
-# 2. (Opsional) Buat virtual environment
+#### 2. Buat Virtual Environment *(opsional tapi direkomendasikan)*
+
+```bash
 python -m venv .venv
 source .venv/bin/activate      # Linux / macOS
 .venv\Scripts\activate         # Windows
-
-# 3. Instal dependensi
-pip install -r requirements.txt
 ```
 
-### Dependensi
+#### 3. Instal Dependensi
+
+```bash
+pip install -r requirements.txt
+```
 
 | Paket | Versi Minimum | Kegunaan |
 |---|---|---|
@@ -135,78 +133,39 @@ pip install -r requirements.txt
 | `scikit-learn` | 1.3 | Linear Regression + StandardScaler |
 | `matplotlib` | 3.7 | Visualisasi |
 
----
+#### 4. Jalankan Tool
 
-## Penggunaan
-
-### Mode 1 — Simulasi (tanpa dataset nyata)
-
+**Mode Simulasi** *(tanpa dataset nyata)*
 ```bash
 python main.py
 ```
+Tool akan membuat otomatis **1.200 baris data simulasi** dengan 10 konfigurasi dan noise harga ±12%.
 
-Tool akan menghasilkan secara otomatis **1.200 baris data laptop simulasi** dengan 10 konfigurasi berbeda dan noise harga ±12%.
-
-### Mode 2 — Dataset CSV nyata
-
+**Mode Dataset CSV**
 ```bash
 python main.py data/laptops.csv
 ```
 
-Ganti `data/laptops.csv` dengan path ke dataset yang tersedia. Lihat [Format Dataset CSV](#format-dataset-csv) untuk spesifikasi kolom.
-
-### Penggunaan sebagai Library Python
-
+**Sebagai Library Python**
 ```python
 from src.analyzer import load_dataset, PriceRegressor, analyze_upgrades, print_report
 from src.visualizer import generate_all
 
-# Muat data
-df = load_dataset("data/laptops.csv")   # atau load_dataset() untuk simulasi
-
-# Analisis
+df        = load_dataset("data/laptops.csv")   # atau load_dataset() untuk simulasi
 regressor = PriceRegressor().fit(df)
 results   = analyze_upgrades(df, regressor)
 
-# Output
 print_report(results)
 generate_all(df, results, out_dir="outputs")
 ```
 
 ---
 
-## Format Dataset CSV
+### Configuration
 
-File CSV harus memiliki **tepat 5 kolom** berikut (nama kolom bersifat case-sensitive):
+Seluruh konfigurasi terdapat di `src/analyzer.py`.
 
-| Kolom | Tipe | Deskripsi | Contoh |
-|---|---|---|---|
-| `memory_gb` | `int` | Kapasitas RAM dalam GB | `16` |
-| `storage_gb` | `int` | Kapasitas SSD/HDD dalam GB | `512` |
-| `cpu_class` | `int` | Kelas CPU (1 = entry, 2 = mid, 3 = high) | `1` |
-| `screen_inches` | `float` | Ukuran layar dalam inci | `14.0` |
-| `market_price_yen` | `int` | Harga pasar dalam yen Jepang | `111000` |
-
-**Contoh baris CSV:**
-
-```csv
-memory_gb,storage_gb,cpu_class,screen_inches,market_price_yen
-8,256,1,13.3,68500
-16,512,1,14.0,112300
-32,512,1,14.0,138000
-16,1024,1,14.0,127500
-16,512,2,14.0,151000
-```
-
-> **Catatan:** Kolom `market_price_yen` merupakan harga jual di pasaran (bukan harga produksi). Semakin banyak baris per konfigurasi, semakin akurat estimasi median yang dihasilkan.
-
----
-
-## Konfigurasi Model Dasar & Upgrade
-
-Seluruh konfigurasi terdapat di `src/analyzer.py`. Sesuaikan dengan kebutuhan bisnis yang berlaku.
-
-### Model dasar (`BASE_CONFIG`)
+**Model dasar (`BASE_CONFIG`)**
 
 ```python
 BASE_CONFIG = {
@@ -214,12 +173,12 @@ BASE_CONFIG = {
     "storage_gb":    512,
     "cpu_class":     1,
     "screen_inches": 14.0,
-    "selling_price": 111_000,  # harga jual baseline (yen)
+    "selling_price": 111_000,   # harga jual baseline (yen)
     "cost":          0,
 }
 ```
 
-### Opsi upgrade (`UPGRADE_OPTIONS`)
+**Opsi upgrade (`UPGRADE_OPTIONS`)**
 
 ```python
 UPGRADE_OPTIONS = {
@@ -230,7 +189,7 @@ UPGRADE_OPTIONS = {
 }
 ```
 
-Untuk menambahkan opsi baru, tambahkan entri pada `UPGRADE_OPTIONS`:
+Untuk menambahkan opsi baru, tambahkan entri baru pada `UPGRADE_OPTIONS`:
 
 ```python
 "RAM 64GB + GPU": {
@@ -239,80 +198,36 @@ Untuk menambahkan opsi baru, tambahkan entri pada `UPGRADE_OPTIONS`:
 }
 ```
 
----
+**Format Dataset CSV**
 
-## Output yang Dihasilkan
+File CSV harus memiliki tepat 5 kolom berikut *(nama kolom bersifat case-sensitive)*:
 
-Setelah menjalankan `main.py`, folder `outputs/` akan berisi:
-
-### `results.csv` — Tabel perbandingan lengkap
-
-```
-rank,upgrade,add_cost,market_price_yen,total_cost,gross_profit,match_count,method,profitable
-1,CPU Kelas 2,12000,147270,123000,24270,132,median (132 exact matches),True
-2,RAM 32GB,8500,137656,119500,18156,106,median (106 exact matches),True
-3,Storage 1TB,6000,125145,117000,8145,113,median (113 exact matches),True
-4,Layar 15.6",5500,118533,116500,2033,115,median (115 exact matches),True
-```
-
-### `scatter_price_vs_spec.png`
-
-Scatter plot harga pasar terhadap indeks spesifikasi komposit. Titik kecil merepresentasikan data pasar mentah; segitiga besar merepresentasikan estimasi harga setelah upgrade.
-
-### `profit_bar.png`
-
-Bar chart horizontal yang membandingkan gross profit (¥) untuk keempat opsi, dilengkapi label nilai pada setiap bar.
-
-### `correlation_heatmap.png`
-
-Heatmap korelasi antara keempat fitur spesifikasi dan harga pasar, untuk memahami faktor pendorong harga utama.
+| Kolom | Tipe | Deskripsi | Contoh |
+|---|---|---|---|
+| `memory_gb` | `int` | Kapasitas RAM dalam GB | `16` |
+| `storage_gb` | `int` | Kapasitas SSD/HDD dalam GB | `512` |
+| `cpu_class` | `int` | Kelas CPU (1=entry, 2=mid, 3=high) | `1` |
+| `screen_inches` | `float` | Ukuran layar dalam inci | `14.0` |
+| `market_price_yen` | `int` | Harga pasar dalam yen | `111000` |
 
 ---
 
-## Metodologi Analitik
+### Troubleshooting
 
-### Estimasi Harga Pasar
-
-Tool menggunakan **tiga strategi secara hierarkis**:
-
-```
-Strategi 1: Exact Match + Median
-  → Jika ≥ 5 baris di dataset cocok persis dengan spek upgrade
-  → Gunakan median (robust terhadap outlier)
-
-Strategi 2: Exact Match + Mean
-  → Jika 1–4 baris cocok
-  → Gunakan mean (ukuran sampel terlalu kecil untuk median)
-
-Strategi 3: Regresi Linear (Fallback)
-  → Jika 0 baris cocok
-  → Linear Regression dengan StandardScaler atas 4 fitur
-  → Dilatih atas seluruh dataset
-```
-
-### Definisi Gross Profit
-
-```
-gross_profit = market_price_estimated − (base_selling_price + upgrade_add_cost)
-```
-
-Nilai ini merupakan **margin kotor per unit** — belum memperhitungkan biaya overhead, distribusi, maupun pemasaran.
-
-### Model Regresi
-
-- **Algoritma:** `sklearn.linear_model.LinearRegression`
-- **Preprocessing:** `StandardScaler` (normalisasi z-score per fitur)
-- **Fitur:** `memory_gb`, `storage_gb`, `cpu_class`, `screen_inches`
-- **Target:** `market_price_yen`
-- **Evaluasi (simulasi):** R² ≈ 0.925, MAE ≈ ¥10.084
-
-> Regresi linear dipilih karena bersifat interpretatif, deterministik, dan cukup akurat untuk spesifikasi numerik laptop. Apabila dataset nyata memiliki distribusi non-linear, pertimbangkan `GradientBoostingRegressor` sebagai pengganti langsung.
+| Masalah | Kemungkinan Penyebab | Solusi |
+|---|---|---|
+| `ModuleNotFoundError` | Dependensi belum terinstal | Jalankan `pip install -r requirements.txt` |
+| Kolom tidak terbaca | Nama kolom CSV tidak sesuai | Pastikan 5 nama kolom persis seperti di tabel Format Dataset |
+| Semua hasil pakai regresi | Dataset terlalu sedikit baris per konfigurasi | Tambah data atau gunakan mode simulasi untuk referensi |
+| Output folder kosong | `outputs/` belum dibuat | Folder dibuat otomatis — pastikan izin tulis tersedia |
 
 ---
 
-## Hasil Rekomendasi (Simulasi)
+## Development Notes
 
-Berikut hasil pada dataset simulasi 1.200 baris:
+### Contoh Output (Simulasi 1.200 Baris)
+
+Berikut hasil pada dataset simulasi bawaan:
 
 | Rank | Opsi Upgrade | Biaya Upgrade | Est. Harga Pasar | Gross Profit | Metode |
 |:---:|---|---:|---:|---:|---|
@@ -321,9 +236,40 @@ Berikut hasil pada dataset simulasi 1.200 baris:
 | 3 | Storage 1TB | ¥6.000 | ¥125.145 | ¥8.145 | Median (113 rows) |
 | 4 | Layar 15.6" | ¥5.500 | ¥118.533 | ¥2.033 | Median (115 rows) |
 
-**Kesimpulan:**
-- Upgrade **CPU Kelas 2** menghasilkan gross profit tertinggi (¥24.270 per unit) meskipun biaya upgradenya paling besar, karena pasar memberikan premium signifikan terhadap peningkatan performa CPU.
-- Upgrade **RAM 32GB** merupakan pilihan terbaik kedua dengan rasio profit terhadap biaya yang efisien: ¥18.156 profit dari investasi ¥8.500 (~2.1x).
+Upgrade **CPU Kelas 2** menghasilkan gross profit tertinggi karena pasar memberikan premium signifikan terhadap peningkatan performa. Upgrade **RAM 32GB** menjadi pilihan terbaik kedua dengan rasio profit/biaya ~2.1x (¥18.156 dari investasi ¥8.500).
+
+### Metodologi Analitik
+
+Estimasi harga pasar menggunakan tiga strategi secara hierarkis:
+
+| Strategi | Kondisi | Metode |
+|---|---|---|
+| 1 | ≥ 5 baris exact match | Median — robust terhadap outlier |
+| 2 | 1–4 baris exact match | Mean — ukuran sampel kecil |
+| 3 | 0 baris cocok | Linear Regression + StandardScaler atas 4 fitur |
+
+Model regresi menggunakan `sklearn.linear_model.LinearRegression` dengan evaluasi simulasi: **R² ≈ 0.925**, **MAE ≈ ¥10.084**. Gross profit yang dihitung merupakan **margin kotor per unit** — belum memperhitungkan overhead, distribusi, maupun pemasaran.
+
+> Jika dataset nyata memiliki distribusi non-linear, pertimbangkan `GradientBoostingRegressor` sebagai pengganti langsung.
+
+### Limitations
+
+| Komponen | Batasan |
+|---|---|
+| Gross profit | Margin kotor saja — belum termasuk overhead & distribusi |
+| Model regresi | Linear — kurang akurat untuk dataset dengan distribusi non-linear |
+| Dataset simulasi | Noise ±12% — hasil bisa berbeda signifikan dengan data pasar nyata |
+| CPU class | Skala 1–3 bersifat ordinal, bukan representasi performa aktual |
+
+### Future Development
+
+Beberapa pengembangan yang dapat dilakukan ke depan:
+
+- [ ] **Non-linear model** — integrasi `GradientBoostingRegressor` atau `RandomForest` untuk dataset pasar nyata
+- [ ] **Multi-market support** — dukungan mata uang selain yen (USD, IDR, EUR)
+- [ ] **Web dashboard** — antarmuka Streamlit untuk analisis tanpa CLI
+- [ ] **Sensitivity analysis** — simulasi pengaruh perubahan `add_cost` terhadap gross profit
+- [ ] **Auto dataset scraping** — pengambilan data harga laptop dari sumber publik secara otomatis
 
 ---
 
@@ -331,5 +277,4 @@ Berikut hasil pada dataset simulasi 1.200 baris:
   <b>Pengembangan dari tim StarLive SAINT</b>
 </p>
 
-<p align="center">Danny Aulia · Said Hasan Hanafiah · Noah Von Nobelius · Arvian Raveindra Pradana</p>
-
+<p align="center"><i>Danny Aulia · Said Hasan Hanafiah · Noah Von Nobelius · Arvian Raveindra Pradana</i></p>
