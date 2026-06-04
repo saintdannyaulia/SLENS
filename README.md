@@ -33,9 +33,7 @@ Proyek ini dikembangkan sebagai solusi untuk tes seleksi **METI Government of Ja
 
 Sistem bekerja dengan menelusuri dataset harga pasar laptop, memperkirakan harga jual setelah setiap opsi upgrade, lalu meranking dan merekomendasikan **2 upgrade paling menguntungkan** berdasarkan gross profit per unit.
 
-> **📝 Notes**
-> <!-- Tambahkan catatan tambahan, konteks proyek, atau informasi relevan lainnya di sini -->
-> <!-- Contoh: versi rilis, kondisi khusus penggunaan, atau hal yang perlu diketahui sebelum lanjut -->
+> *Proyek ini merupakan pertanyaan pada tes seleksi METI Government of Japan — AI and Tech Internship 2025*
 
 ---
 
