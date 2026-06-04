@@ -27,13 +27,11 @@
 
 ## Overview
 
-Proyek ini dikembangkan sebagai solusi untuk tes seleksi **METI Government of Japan AI and Tech Internship 2025**. Tool ini dirancang untuk membantu manajer produk dan tim merchandising laptop dalam menjawab pertanyaan bisnis secara kuantitatif:
+Proyek ini dikembangkan sebagai jawaban pada tes seleksi **METI Government of Japan AI and Tech Internship 2025**. Tool ini dirancang untuk membantu manajer produk dan tim merchandising laptop dalam menjawab pertanyaan bisnis secara kuantitatif:
 
 > *"Apakah penambahan RAM, peningkatan CPU, atau perluasan storage pada model entry menguntungkan — dan mana yang paling optimal?"*
 
 Sistem bekerja dengan menelusuri dataset harga pasar laptop, memperkirakan harga jual setelah setiap opsi upgrade, lalu meranking dan merekomendasikan **2 upgrade paling menguntungkan** berdasarkan gross profit per unit.
-
-> *Proyek ini merupakan pertanyaan pada tes seleksi METI Government of Japan — AI and Tech Internship 2025*
 
 ---
 
